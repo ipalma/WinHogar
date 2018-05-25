@@ -9,6 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WinHogar.Utils;
 using WinHogar.ViewModels;
 
 namespace WinHogar
@@ -25,13 +26,29 @@ namespace WinHogar
 
         private void button1_Click(object sender, EventArgs e)
         {
-            menu = new MenuWindow(_userRepository);
-            menu.Show();
+            EncryptionMethods em = new EncryptionMethods();
+            var hashedPassword = em.SHA256_Hash(txtPassword.Text);
+            var user = _userRepository.Get(x => x.User1 == txtUserName.Text && x.Password == hashedPassword).FirstOrDefault();
+
+            if (user != null)
+            {
+                this.Hide();
+
+                menu = new MenuWindow(_userRepository);
+                menu.Show();
+            }
+            else
+            {
+                MessageBox.Show("Usuario no existente o password incorrecta");
+            }
+            
         }
 
         private void btnRegister_Click(object sender, EventArgs e)
         {
+
             RegisterWindow register = new RegisterWindow(_userRepository);
+            
             register.Show();
         }
     }
