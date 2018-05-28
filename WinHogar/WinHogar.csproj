@@ -55,10 +55,22 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MenuWindow.cs">
+    <Compile Include="Forms\IncomeForms\IncomeWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="MenuWindow.Designer.cs">
+    <Compile Include="Forms\IncomeForms\IncomeWindow.Designer.cs">
+      <DependentUpon>IncomeWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\IncomeForms\NewIncomeWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\IncomeForms\NewIncomeWindow.Designer.cs">
+      <DependentUpon>NewIncomeWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Forms\MenuWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Forms\MenuWindow.Designer.cs">
       <DependentUpon>MenuWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="LoginWindow.cs">
@@ -69,10 +81,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="RegisterWindow.cs">
+    <Compile Include="Forms\UserForms\RegisterWindow.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="RegisterWindow.Designer.cs">
+    <Compile Include="Forms\UserForms\RegisterWindow.Designer.cs">
       <DependentUpon>RegisterWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="Utils\EncryptionMethods.cs" />
@@ -89,10 +101,13 @@
     <Compile Include="ViewModels\TotalAmountViewModel.cs" />
     <Compile Include="ViewModels\UserAddressViewModel.cs" />
     <Compile Include="ViewModels\UserViewModel.cs" />
+    <EmbeddedResource Include="Forms\IncomeForms\IncomeWindow.resx">
+      <DependentUpon>IncomeWindow.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="LoginWindow.resx">
       <DependentUpon>LoginWindow.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="MenuWindow.resx">
+    <EmbeddedResource Include="Forms\MenuWindow.resx">
       <DependentUpon>MenuWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -104,7 +119,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="RegisterWindow.resx">
+    <EmbeddedResource Include="Forms\UserForms\RegisterWindow.resx">
       <DependentUpon>RegisterWindow.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
@@ -130,6 +145,9 @@
       <Project>{0c0f71b0-7d2f-4038-9d08-2887f0c9612a}</Project>
       <Name>Repository</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Forms\OutgoingsForms\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -25,27 +25,43 @@ namespace WinHogar.ViewModels
 
         public void FromDataBase(Country model)
         {
-            throw new NotImplementedException();
+            CountryId = model.CountryId;
+            CountryCode = model.CountryCode;
+            CountryName = model.CountryName;
+            rowguid = model.rowguid;
+            ModifiedDate = model.ModifiedDate;
         }
 
         public Guid[] GetGuids()
         {
-            throw new NotImplementedException();
+            return new Guid[] { rowguid };
         }
 
         public int[] GetKeys()
         {
-            throw new NotImplementedException();
+            return new int[] { CountryId };
         }
 
         public Country ToDataBase()
         {
-            throw new NotImplementedException();
+            var data = new Country()
+            {
+                CountryId = CountryId,
+                CountryCode = CountryCode,
+                CountryName = CountryName,
+                rowguid = rowguid,
+                ModifiedDate = ModifiedDate
+            };
+            return data;
         }
 
         public void UpdateDataBase(Country model)
         {
-            throw new NotImplementedException();
+            model.CountryId = CountryId;
+            model.CountryCode = CountryCode;
+            model.CountryName = CountryName;
+            model.rowguid = rowguid;
+            model.ModifiedDate = ModifiedDate;
         }
     }
 }
