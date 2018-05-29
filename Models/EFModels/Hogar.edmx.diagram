@@ -8,24 +8,24 @@
         <EntityTypeShape EntityType="DBTestsAppModel.Address" Width="1.5" PointX="7.5" PointY="1" IsExpanded="true" />
         <EntityTypeShape EntityType="DBTestsAppModel.City" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
         <EntityTypeShape EntityType="DBTestsAppModel.Country" Width="1.5" PointX="5.25" PointY="8.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBTestsAppModel.Income" Width="1.5" PointX="12" PointY="9" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBTestsAppModel.IncomeType" Width="1.5" PointX="9.75" PointY="9.125" IsExpanded="true" />
         <EntityTypeShape EntityType="DBTestsAppModel.Outgoings" Width="1.5" PointX="12" PointY="5" IsExpanded="true" />
         <EntityTypeShape EntityType="DBTestsAppModel.OutgoingType" Width="1.5" PointX="9.75" PointY="5.25" IsExpanded="true" />
         <EntityTypeShape EntityType="DBTestsAppModel.PredefinedOutgoins" Width="1.5" PointX="0.75" PointY="4.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBTestsAppModel.Province" Width="1.5" PointX="3" PointY="1.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DBTestsAppModel.Region" Width="1.5" PointX="0.75" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="DBTestsAppModel.TotalAmount" Width="1.5" PointX="2.75" PointY="5.75" IsExpanded="true" />
         <EntityTypeShape EntityType="DBTestsAppModel.User" Width="1.5" PointX="7.5" PointY="7.625" IsExpanded="true" />
         <EntityTypeShape EntityType="DBTestsAppModel.UserAddress" Width="1.5" PointX="9.75" PointY="1.625" IsExpanded="true" />
         <AssociationConnector Association="DBTestsAppModel.FK_Address_City" ManuallyRouted="false" />
         <AssociationConnector Association="DBTestsAppModel.FK_UserAddress_Address" ManuallyRouted="false" />
         <AssociationConnector Association="DBTestsAppModel.FK_City_Province" ManuallyRouted="false" />
         <AssociationConnector Association="DBTestsAppModel.FK_User_Country" ManuallyRouted="false" />
-        <AssociationConnector Association="DBTestsAppModel.FK_Income_IncomeType" ManuallyRouted="false" />
         <AssociationConnector Association="DBTestsAppModel.FK_Outgoings_OutgoingType" ManuallyRouted="false" />
         <AssociationConnector Association="DBTestsAppModel.FK_Province_Region" ManuallyRouted="false" />
         <AssociationConnector Association="DBTestsAppModel.FK_UserAddress_User" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="DBTestsAppModel.IncomeType" Width="1.5" PointX="10.375" PointY="9.125" />
+        <EntityTypeShape EntityType="DBTestsAppModel.Income" Width="1.5" PointX="12.625" PointY="8.875" />
+        <AssociationConnector Association="DBTestsAppModel.FK_Income_IncomeType" />
+        <EntityTypeShape EntityType="DBTestsAppModel.TotalAmount" Width="1.5" PointX="3.375" PointY="5.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

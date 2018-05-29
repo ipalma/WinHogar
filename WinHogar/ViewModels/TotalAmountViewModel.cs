@@ -16,27 +16,37 @@ namespace WinHogar.ViewModels
 
         public void FromDataBase(TotalAmount model)
         {
-            throw new NotImplementedException();
+            TotalAmountId = model.TotalAmountId;
+            Amount = model.Amount;
+            rowguid = model.rowguid;
         }
 
         public Guid[] GetGuids()
         {
-            throw new NotImplementedException();
+            return new Guid[] { rowguid };
         }
 
         public int[] GetKeys()
         {
-            throw new NotImplementedException();
+            return new int[] { TotalAmountId };
         }
 
         public TotalAmount ToDataBase()
         {
-            throw new NotImplementedException();
+            var data = new TotalAmount()
+            {
+                TotalAmountId = TotalAmountId,
+                Amount = Amount,
+                rowguid = rowguid
+            };
+            return data;
         }
 
         public void UpdateDataBase(TotalAmount model)
         {
-            throw new NotImplementedException();
+            model.TotalAmountId = TotalAmountId;
+            model.Amount = Amount;
+            model.rowguid = rowguid;
         }
     }
 }

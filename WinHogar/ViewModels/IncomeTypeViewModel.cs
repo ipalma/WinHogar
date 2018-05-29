@@ -25,27 +25,56 @@ namespace WinHogar.ViewModels
 
         public void FromDataBase(IncomeType model)
         {
-            throw new NotImplementedException();
+            IncomeTypeId = model.IncomeTypeId;
+            IncomeDescription = model.IncomeDescription;
+            rowguid = model.rowguid;
+            ModifiedDate = model.ModifiedDate;
+            try
+            {
+                Income = model.Income.Select(x => new IncomeViewModel()
+                {
+                    IncomeId = x.IncomeId,
+                    IncomeTypeId = x.IncomeTypeId,
+                    Amount = x.Amount,
+                    IncomeDate = x.IncomeDate,
+                    IncomeMonth = x.IncomeMonth,
+                    rowguid = x.rowguid
+                }).ToList();
+            }
+            catch(Exception ex)
+            {
+
+            }
         }
 
         public Guid[] GetGuids()
         {
-            throw new NotImplementedException();
+            return new Guid[] { rowguid };
         }
 
         public int[] GetKeys()
         {
-            throw new NotImplementedException();
+            return new int[] { IncomeTypeId };
         }
 
         public IncomeType ToDataBase()
         {
-            throw new NotImplementedException();
+            var data = new IncomeType()
+            {
+                IncomeTypeId = IncomeTypeId,
+                IncomeDescription = IncomeDescription,
+                rowguid = rowguid,
+                ModifiedDate = ModifiedDate
+            };
+            return data;
         }
 
         public void UpdateDataBase(IncomeType model)
         {
-            throw new NotImplementedException();
+            model.IncomeTypeId = IncomeTypeId;
+            model.IncomeDescription = IncomeDescription;
+            model.rowguid = rowguid;
+            model.ModifiedDate = ModifiedDate;
         }
     }
 }

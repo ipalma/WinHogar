@@ -12,16 +12,39 @@ namespace WinHogar.ViewModels
     {
         public int IncomeId { get; set; }
         public int IncomeTypeId { get; set; }
+        public int? UserId { get; set; }
         public decimal Amount { get; set; }
         public System.DateTime IncomeDate { get; set; }
         public string IncomeMonth { get; set; }
-        public string rowguid { get; set; }
+        public Guid rowguid { get; set; }
 
         public virtual IncomeTypeViewModel IncomeType { get; set; }
 
         public void FromDataBase(Income model)
         {
-            throw new NotImplementedException();
+            IncomeId = model.IncomeId;
+            IncomeTypeId = model.IncomeTypeId;
+            UserId = model.UserId;
+            Amount = model.Amount;
+            IncomeDate = model.IncomeDate;
+            IncomeMonth = model.IncomeMonth;
+            rowguid = model.rowguid;
+
+            if(model.IncomeType != null)
+            {
+                IncomeType = new IncomeTypeViewModel()
+                {
+                    IncomeTypeId = model.IncomeType.IncomeTypeId,
+                    IncomeDescription = model.IncomeType.IncomeDescription,
+                    rowguid = model.IncomeType.rowguid,
+                    ModifiedDate = model.IncomeType.ModifiedDate
+                };
+            }
+            else
+            {
+                IncomeType = new IncomeTypeViewModel();
+            }
+            
         }
 
         public Guid[] GetGuids()
@@ -36,12 +59,29 @@ namespace WinHogar.ViewModels
 
         public Income ToDataBase()
         {
-            throw new NotImplementedException();
+            var data = new Income()
+            {
+                IncomeId = IncomeId,
+                IncomeTypeId = IncomeTypeId,
+                UserId = UserId,
+                Amount = Amount,
+                IncomeDate = IncomeDate,
+                IncomeMonth = IncomeMonth,
+                rowguid = rowguid
+            };
+            return data;
+
         }
 
         public void UpdateDataBase(Income model)
         {
-            throw new NotImplementedException();
+            model.IncomeId = IncomeId;
+            model.IncomeTypeId = IncomeTypeId;
+            model.UserId = UserId;
+            model.Amount = Amount;
+            model.IncomeDate = IncomeDate;
+            model.IncomeMonth = IncomeMonth;
+            model.rowguid =rowguid;
         }
     }
 }

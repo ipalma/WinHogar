@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="DBTestsAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="DBTestsAppModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012.Azure" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Address">
           <Key>
             <PropertyRef Name="AddressId" />
@@ -47,12 +47,13 @@
           <Key>
             <PropertyRef Name="IncomeId" />
           </Key>
-          <Property Name="IncomeId" Type="int" Nullable="false" />
+          <Property Name="IncomeId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="IncomeTypeId" Type="int" Nullable="false" />
+          <Property Name="UserId" Type="int" />
           <Property Name="Amount" Type="money" Nullable="false" />
           <Property Name="IncomeDate" Type="datetime" Nullable="false" />
           <Property Name="IncomeMonth" Type="nvarchar" MaxLength="20" />
-          <Property Name="rowguid" Type="nchar" MaxLength="10" />
+          <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
         <EntityType Name="IncomeType">
           <Key>
@@ -117,7 +118,7 @@
           <Key>
             <PropertyRef Name="TotalAmountId" />
           </Key>
-          <Property Name="TotalAmountId" Type="int" Nullable="false" />
+          <Property Name="TotalAmountId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Amount" Type="money" Nullable="false" />
           <Property Name="rowguid" Type="uniqueidentifier" Nullable="false" />
         </EntityType>
@@ -293,8 +294,7 @@
             <End Role="UserAddress" EntitySet="UserAddress" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="DBTestsAppModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -340,28 +340,6 @@
           <Property Name="rowguid" Type="Guid" Nullable="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="User" Relationship="Self.FK_User_Country" FromRole="Country" ToRole="User" />
-        </EntityType>
-        <EntityType Name="Income">
-          <Key>
-            <PropertyRef Name="IncomeId" />
-          </Key>
-          <Property Name="IncomeId" Type="Int32" Nullable="false" />
-          <Property Name="IncomeTypeId" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="IncomeDate" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="IncomeMonth" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
-          <Property Name="rowguid" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
-          <NavigationProperty Name="IncomeType" Relationship="Self.FK_Income_IncomeType" FromRole="Income" ToRole="IncomeType" />
-        </EntityType>
-        <EntityType Name="IncomeType">
-          <Key>
-            <PropertyRef Name="IncomeTypeId" />
-          </Key>
-          <Property Name="IncomeTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="IncomeDescription" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
-          <Property Name="rowguid" Type="Guid" Nullable="false" />
-          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
-          <NavigationProperty Name="Income" Relationship="Self.FK_Income_IncomeType" FromRole="IncomeType" ToRole="Income" />
         </EntityType>
         <EntityType Name="Outgoings">
           <Key>
@@ -417,14 +395,6 @@
           <Property Name="rowguid" Type="Guid" Nullable="false" />
           <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
           <NavigationProperty Name="Province" Relationship="Self.FK_Province_Region" FromRole="Region" ToRole="Province" />
-        </EntityType>
-        <EntityType Name="TotalAmount">
-          <Key>
-            <PropertyRef Name="TotalAmountId" />
-          </Key>
-          <Property Name="TotalAmountId" Type="Int32" Nullable="false" />
-          <Property Name="Amount" Type="Decimal" Precision="19" Scale="4" Nullable="false" />
-          <Property Name="rowguid" Type="Guid" Nullable="false" />
         </EntityType>
         <EntityType Name="User">
           <Key>
@@ -507,18 +477,6 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
-        <Association Name="FK_Income_IncomeType">
-          <End Role="IncomeType" Type="Self.IncomeType" Multiplicity="1" />
-          <End Role="Income" Type="Self.Income" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="IncomeType">
-              <PropertyRef Name="IncomeTypeId" />
-            </Principal>
-            <Dependent Role="Income">
-              <PropertyRef Name="IncomeTypeId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
         <Association Name="FK_Outgoings_OutgoingType">
           <End Role="OutgoingType" Type="Self.OutgoingType" Multiplicity="0..1" />
           <End Role="Outgoings" Type="Self.Outgoings" Multiplicity="*" />
@@ -559,14 +517,11 @@
           <EntitySet Name="Address" EntityType="Self.Address" />
           <EntitySet Name="City" EntityType="Self.City" />
           <EntitySet Name="Country" EntityType="Self.Country" />
-          <EntitySet Name="Income" EntityType="Self.Income" />
-          <EntitySet Name="IncomeType" EntityType="Self.IncomeType" />
           <EntitySet Name="Outgoings" EntityType="Self.Outgoings" />
           <EntitySet Name="OutgoingType" EntityType="Self.OutgoingType" />
           <EntitySet Name="PredefinedOutgoins" EntityType="Self.PredefinedOutgoins" />
           <EntitySet Name="Province" EntityType="Self.Province" />
           <EntitySet Name="Region" EntityType="Self.Region" />
-          <EntitySet Name="TotalAmount" EntityType="Self.TotalAmount" />
           <EntitySet Name="User" EntityType="Self.User" />
           <EntitySet Name="UserAddress" EntityType="Self.UserAddress" />
           <AssociationSet Name="FK_Address_City" Association="Self.FK_Address_City">
@@ -585,10 +540,6 @@
             <End Role="Country" EntitySet="Country" />
             <End Role="User" EntitySet="User" />
           </AssociationSet>
-          <AssociationSet Name="FK_Income_IncomeType" Association="Self.FK_Income_IncomeType">
-            <End Role="IncomeType" EntitySet="IncomeType" />
-            <End Role="Income" EntitySet="Income" />
-          </AssociationSet>
           <AssociationSet Name="FK_Outgoings_OutgoingType" Association="Self.FK_Outgoings_OutgoingType">
             <End Role="OutgoingType" EntitySet="OutgoingType" />
             <End Role="Outgoings" EntitySet="Outgoings" />
@@ -601,7 +552,57 @@
             <End Role="User" EntitySet="User" />
             <End Role="UserAddress" EntitySet="UserAddress" />
           </AssociationSet>
+          <EntitySet Name="IncomeType" EntityType="DBTestsAppModel.IncomeType" />
+          <EntitySet Name="Income" EntityType="DBTestsAppModel.Income" />
+          <AssociationSet Name="FK_Income_IncomeType" Association="DBTestsAppModel.FK_Income_IncomeType">
+            <End Role="IncomeType" EntitySet="IncomeType" />
+            <End Role="Income" EntitySet="Income" />
+          </AssociationSet>
+          <EntitySet Name="TotalAmount" EntityType="DBTestsAppModel.TotalAmount" />
         </EntityContainer>
+        <EntityType Name="IncomeType">
+          <Key>
+            <PropertyRef Name="IncomeTypeId" />
+          </Key>
+          <Property Name="IncomeTypeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IncomeDescription" Type="String" Nullable="false" MaxLength="150" FixedLength="false" Unicode="true" />
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <Property Name="ModifiedDate" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="Income" Relationship="DBTestsAppModel.FK_Income_IncomeType" FromRole="IncomeType" ToRole="Income" />
+        </EntityType>
+        <EntityType Name="Income">
+          <Key>
+            <PropertyRef Name="IncomeId" />
+          </Key>
+          <Property Name="IncomeId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="IncomeTypeId" Type="Int32" Nullable="false" />
+          <Property Name="UserId" Type="Int32" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="IncomeDate" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="IncomeMonth" Type="String" MaxLength="20" FixedLength="false" Unicode="true" />
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+          <NavigationProperty Name="IncomeType" Relationship="DBTestsAppModel.FK_Income_IncomeType" FromRole="Income" ToRole="IncomeType" />
+        </EntityType>
+        <Association Name="FK_Income_IncomeType">
+          <End Type="DBTestsAppModel.IncomeType" Role="IncomeType" Multiplicity="1" />
+          <End Type="DBTestsAppModel.Income" Role="Income" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="IncomeType">
+              <PropertyRef Name="IncomeTypeId" />
+            </Principal>
+            <Dependent Role="Income">
+              <PropertyRef Name="IncomeTypeId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="TotalAmount">
+          <Key>
+            <PropertyRef Name="TotalAmountId" />
+          </Key>
+          <Property Name="TotalAmountId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Amount" Type="Decimal" Nullable="false" Precision="19" Scale="4" />
+          <Property Name="rowguid" Type="Guid" Nullable="false" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -644,28 +645,6 @@
                 <ScalarProperty Name="CountryId" ColumnName="CountryId" />
                 <ScalarProperty Name="CountryName" ColumnName="CountryName" />
                 <ScalarProperty Name="CountryCode" ColumnName="CountryCode" />
-                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
-                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="Income">
-            <EntityTypeMapping TypeName="DBTestsAppModel.Income">
-              <MappingFragment StoreEntitySet="Income">
-                <ScalarProperty Name="IncomeId" ColumnName="IncomeId" />
-                <ScalarProperty Name="IncomeTypeId" ColumnName="IncomeTypeId" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="IncomeDate" ColumnName="IncomeDate" />
-                <ScalarProperty Name="IncomeMonth" ColumnName="IncomeMonth" />
-                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="IncomeType">
-            <EntityTypeMapping TypeName="DBTestsAppModel.IncomeType">
-              <MappingFragment StoreEntitySet="IncomeType">
-                <ScalarProperty Name="IncomeTypeId" ColumnName="IncomeTypeId" />
-                <ScalarProperty Name="IncomeDescription" ColumnName="IncomeDescription" />
                 <ScalarProperty Name="rowguid" ColumnName="rowguid" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
               </MappingFragment>
@@ -726,15 +705,6 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="TotalAmount">
-            <EntityTypeMapping TypeName="DBTestsAppModel.TotalAmount">
-              <MappingFragment StoreEntitySet="TotalAmount">
-                <ScalarProperty Name="TotalAmountId" ColumnName="TotalAmountId" />
-                <ScalarProperty Name="Amount" ColumnName="Amount" />
-                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <EntitySetMapping Name="User">
             <EntityTypeMapping TypeName="DBTestsAppModel.User">
               <MappingFragment StoreEntitySet="User">
@@ -762,6 +732,38 @@
                 <ScalarProperty Name="AddressId" ColumnName="AddressId" />
                 <ScalarProperty Name="rowguid" ColumnName="rowguid" />
                 <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="IncomeType">
+            <EntityTypeMapping TypeName="DBTestsAppModel.IncomeType">
+              <MappingFragment StoreEntitySet="IncomeType">
+                <ScalarProperty Name="ModifiedDate" ColumnName="ModifiedDate" />
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="IncomeDescription" ColumnName="IncomeDescription" />
+                <ScalarProperty Name="IncomeTypeId" ColumnName="IncomeTypeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Income">
+            <EntityTypeMapping TypeName="DBTestsAppModel.Income">
+              <MappingFragment StoreEntitySet="Income">
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="IncomeMonth" ColumnName="IncomeMonth" />
+                <ScalarProperty Name="IncomeDate" ColumnName="IncomeDate" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="IncomeTypeId" ColumnName="IncomeTypeId" />
+                <ScalarProperty Name="IncomeId" ColumnName="IncomeId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TotalAmount">
+            <EntityTypeMapping TypeName="DBTestsAppModel.TotalAmount">
+              <MappingFragment StoreEntitySet="TotalAmount">
+                <ScalarProperty Name="rowguid" ColumnName="rowguid" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="TotalAmountId" ColumnName="TotalAmountId" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

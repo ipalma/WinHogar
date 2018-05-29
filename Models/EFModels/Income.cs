@@ -16,10 +16,11 @@ namespace Models.EFModels
     {
         public int IncomeId { get; set; }
         public int IncomeTypeId { get; set; }
+        public Nullable<int> UserId { get; set; }
         public decimal Amount { get; set; }
         public System.DateTime IncomeDate { get; set; }
         public string IncomeMonth { get; set; }
-        public string rowguid { get; set; }
+        public System.Guid rowguid { get; set; }
     
         public virtual IncomeType IncomeType { get; set; }
     }
